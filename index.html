@@ -7,36 +7,32 @@
 	<link href='http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300,400,600,700,900,200italic,300italic,400italic,600italic,700italic,900italic' rel='stylesheet' type='text/css'>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
   <style>
-    #sandbox p {
-      display: inline; padding: 5px; margin-right: 5px; background: lightgrey;
-    }
-    .nar{
-      width: 350px; padding: 5px;
-    }
-    .panel-heading{
-      font-weight: bold;
-    }
-    .badge{
-      font-weight: normal;
-      background-color: #DDD;
-      color: black;
-      font-size: large;
-    }
-    .list-group-item{
-      overflow-x: auto;
-    }
+    h1{text-align: center;}
+    .nar{ width: 350px; padding: 5px; }
+    .panel-heading{ font-weight: bold; }
+    .badge{ font-weight: normal; background-color: #DDD; color: black; font-size: large; }
+    .list-group-item{ overflow-x: auto; }
+    .loading{ font-size: xx-large; color: grey; }
+    .runon{ font-size: 50px; font-weight: light; line-height: 120%; text-align: justify;}
+    h2{ color:lightgreen; text-decoration: underline;}
+    h2:hover{ color:darkgreen; text-decoration: underline;}
+    h2:active{ color:lightblue; text-decoration: underline;}
   </style>
 </head>
 <body>
   <div class='container'>
-    <div class='row'>
-      <div class='col-md-12'>
-        <h1> Lost and Found in the MTA </h1>
+    <div class='row' id='header'>
+      <div class='col-md-9'>
+        <h1> things that are currently lost in the subway </h1>
+      </div>
+      <div class='col-md-3'>
+        <h2 id='listmode'>List Mode</h2> <h2 id='runonmode'>Run-on Mode</h2>
       </div>
     </div>
     <div class='row'>
-      <div class='col-md-12 results'>
-      </div>
+      <div class='loading'>Loading...</div>
+      <div class='col-md-12 list'></div>
+      <div class='col-md-12 runon'></div>
     </div>
   </div>
 </body>
@@ -45,6 +41,8 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"></script>
 <script>
 $(document).ready(function() {
+  $('#runonmode').hide();
+  $('.list').hide();
 
   var data = {
     'name' : 'data',
@@ -68,6 +66,15 @@ $(document).ready(function() {
     });
   };
 
+  function pluralize(str){
+    str = str.trim();
+    if(str.slice(-1) == 's'){
+      return str;
+    } else {
+      return str+'s';
+    }
+  }
+
   $.ajax({
     type: "POST",
     url: "http://jbuckland.com/bounce.php",
@@ -76,30 +83,58 @@ $(document).ready(function() {
     dataType: "xml",
     success: parseXML
   })
-  .done(function()    {
+  .done(function(){
+    $('.loading').toggle();
+
     $("#sandbox").append( "<p>Second Success.</p>"  );
 
-    console.log(data.cats);
-
+    //render list
     for (var i = 0; i < data['cats'].length; i++){
-      $('.results').append("<div class='nar' id='"+i+"'> </div>");
+      $('.list').append("<div class='nar' id='"+i+"'> </div>");
       $('.nar#'+i).append("<div class='panel panel-default'> <div class='panel-heading'>" + data['cats'][i]['name'] + "</div> <ul class='list-group' id='"+i+"'> </ul> </div>");
       for (var j = 0; j < data['cats'][i]['data'].length; j++){
         $('.nar#'+i+' .list-group').append('<li class="list-group-item">' + data['cats'][i]['data'][j]['name'] + ' <span class="badge">' + data['cats'][i]['data'][j]['count'] + '</span> </li>');
       }
     }
 
-    var container = document.querySelector('.results');
-    var msnry = new Masonry( container, {
-      // options
-      columnWidth: 350,
-      itemSelector: '.nar'
-    });
+    //render runon
+    runon = [];
+    for (var i = 0; i < data['cats'].length; i++){
+      for (var j = 0; j < data['cats'][i]['data'].length; j++){
+        runon.push(data['cats'][i]['data'][j]['count'] + " " + pluralize(data['cats'][i]['data'][j]['name']).toLowerCase() + ", ");
+      }
+    }
+
+    function shuffle(o){
+      for(var j, x, i = o.length; i; j = Math.floor(Math.random() * i), x = o[--i], o[i] = o[j], o[j] = x);
+      return o;
+    }
+    shuffle(runon);
+    for (var i = 0; i < runon.length; i++){
+      $('.runon').append(runon[i]);
+    }
+
 
   })
   .fail(function()    { $("#sandbox").append( "<p>Error!</p>"           ); })
   .always(function()  { $("#sandbox").append( "<p>Finished.</p>"        ); });
 
+  $( "#runonmode" ).click(function() {
+    $("#runonmode").toggle();
+    $("#listmode").toggle();
+    $(".runon").toggle();
+    $(".list").toggle();
+  });
+
+  $( "#listmode" ).click(function() {
+    $("#runonmode").toggle();
+    $("#listmode").toggle();
+    $(".runon").toggle();
+    $(".list").toggle();
+    var container = document.querySelector('.list');
+    var msnry = new Masonry( container, { columnWidth: 350, itemSelector: '.nar' });
+
+  });
 
 });
 </script>
