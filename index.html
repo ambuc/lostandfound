@@ -10,6 +10,9 @@
     #sandbox p {
       display: inline; padding: 5px; margin-right: 5px; background: lightgrey;
     }
+    .narrow {
+      color: red;
+    }
   </style>
 </head>
 <body>
@@ -20,8 +23,7 @@
       </div>
     </div>
     <div class='row'>
-      <div class='col-md-12' id='sandbox'>
-        <h2></h2>
+      <div class='col-md-12' id='results'>
       </div>
     </div>
   </div>
@@ -32,19 +34,18 @@
 $(document).ready(function() {
   function parseXML(xml){
     $(xml).find("Category").each(function(){
-      $('#sandbox').append("<div class='narrow'>");
-      $("#sandbox").append("<h3>" + $(this).attr('Category') + "</h3>");
-      $("#sandbox").append("<ul class=\"list-group\">");
+      $('#results').append("<div class='narrow'>");
+      $("#results").append("<h3>" + $(this).attr('Category') + "</h3>");
+      $("#results").append("<ul class=\"list-group\">");
       $(this).find("SubCategory").each(function(){
-        $("#sandbox").append(
+        $("#results").append(
           "<li class='list-group-item'> <span class='badge'> "
           + $(this).attr('count') + "</span>"
           + $(this).attr('SubCategory') + "</li>"
         );
-      $("#sandbox").append("</ul>");
-      $('#sandbox').append("</div>");
-
+        $("#results").append("</ul>");
       });
+      $("#results").append("</div>");
     });
   }
 
