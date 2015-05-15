@@ -10,9 +10,7 @@
     #sandbox p {
       display: inline; padding: 5px; margin-right: 5px; background: lightgrey;
     }
-    div.narrow{
-      width: 300px;
-      background: lightblue;
+    div.results{
     }
   </style>
 </head>
@@ -24,7 +22,7 @@
       </div>
     </div>
     <div class='row'>
-      <div class='col-md-12' id='results'>
+      <div class='col-md-12 results'>
       </div>
     </div>
   </div>
@@ -35,20 +33,18 @@
 $(document).ready(function() {
   function parseXML(xml){
     $(xml).find("Category").each(function(){
-      $("#results").append(
-        "<div class='narrow'> <h3>"
-        + $(this).attr('Category')
-        + "</h3>"
+      $(".results").append(
+        "<h3>" + $(this).attr('Category') + "</h3>"
       );
-      $("#results").append("<ul class=\"list-group\">");
+      $(".results").append("<ul class=\"list-group\">");
       $(this).find("SubCategory").each(function(){
-        $("#results").append(
+        $(".results").append(
           "<li class='list-group-item'> <span class='badge'> "
           + $(this).attr('count') + "</span>"
           + $(this).attr('SubCategory') + "</li>"
         );
       });
-      $("#results").append("</ul> </div>");
+      $(".results").append("</ul> </div>");
     });
   }
 
