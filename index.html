@@ -32,21 +32,27 @@
 <script>
 $(document).ready(function() {
 
-  var data = {};
+  var data = {
+    'name' : 'data',
+    'categories' : []
+  };
 
   $(".results").append('success');
 
   function parseXML(xml){
     $(xml).find("Category").each(function(){
-      var cat = { name:$(this).attr('Category') };
+      var cat = {
+        'name' : $(this).attr('Category'),
+        'data' : {}
+      };
       $(this).find("SubCategory").each(function(){
         var subcat = {
-          name : $(this).attr('SubCategory'),
-          count : $(this).attr('count')
+          'name' : $(this).attr('SubCategory'),
+          'count' : $(this).attr('count')
         };
-        cat[data] = subcat;
+        cat['data'] = subcat;
       });
-      data[cat.name] = cat;
+      data['categories'].push(cat);
     });
   };
 
