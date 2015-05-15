@@ -32,10 +32,7 @@
 <script>
 $(document).ready(function() {
 
-  var data = {
-    'name' : 'data',
-    'categories' : []
-  };
+  var data = [];
 
   function parseXML(xml){
     $(xml).find("Category").each(function(){
@@ -50,7 +47,7 @@ $(document).ready(function() {
         };
         cat['data'].push(subcat);
       });
-      data['categories'].push(cat);
+      data.push(cat);
     });
   };
 
@@ -67,6 +64,10 @@ $(document).ready(function() {
   .always(function()  { $("#sandbox").append( "<p>Finished.</p>"        ); });
 
   console.log(data);
+
+  for (var item in data){
+    $(".results").append(item['name']);
+  }
 
 });
 </script>
