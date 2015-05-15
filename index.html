@@ -32,6 +32,7 @@
 $(document).ready(function() {
   function parseXML(xml){
     $(xml).find("Category").each(function(){
+      $('#sandbox').append("<div class='narrow'>");
       $("#sandbox").append("<h3>" + $(this).attr('Category') + "</h3>");
       $("#sandbox").append("<ul class=\"list-group\">");
       $(this).find("SubCategory").each(function(){
@@ -41,6 +42,8 @@ $(document).ready(function() {
           + $(this).attr('SubCategory') + "</li>"
         );
       $("#sandbox").append("</ul>");
+      $('#sandbox').append("</div>");
+
       });
     });
   }
