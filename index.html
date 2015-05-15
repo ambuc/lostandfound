@@ -37,8 +37,6 @@ $(document).ready(function() {
     'categories' : []
   };
 
-  $(".results").append('success');
-
   function parseXML(xml){
     $(xml).find("Category").each(function(){
       var cat = {
@@ -56,23 +54,6 @@ $(document).ready(function() {
     });
   };
 
-  console.log(data);
-
-    // $(xml).find("Category").each(function(){
-    //   $(".results").append(
-    //     "<h3>" + $(this).attr('Category') + "</h3>"
-    //   );
-    //   $(".results").append("<ul class=\"list-group\">");
-    //   $(this).find("SubCategory").each(function(){
-    //     $(".results").append(
-    //       "<li class='list-group-item'> <span class='badge'> "
-    //       + $(this).attr('count') + "</span>"
-    //       + $(this).attr('SubCategory') + "</li>"
-    //     );
-    //   });
-    //   $(".results").append("</ul> </div>");
-    // });
-
   $.ajax({
     type: "POST",
     url: "http://jbuckland.com/bounce.php",
@@ -81,19 +62,23 @@ $(document).ready(function() {
     dataType: "xml",
     success: parseXML
   })
-  .done(function() {
-    $("#sandbox").append( "<p>Second Success.</p>" );
-  })
-  .fail(function() {
-    $("#sandbox").append( "<p>Error!</p>" );
-  })
-  .always(function() {
-    $("#sandbox").append( "<p>Finished.</p>" );
-  });
+  .done(function()    { $("#sandbox").append( "<p>Second Success.</p>"  ); })
+  .fail(function()    { $("#sandbox").append( "<p>Error!</p>"           ); })
+  .always(function()  { $("#sandbox").append( "<p>Finished.</p>"        ); });
+
+  console.log(data);
+
+  function printObject(o) {
+    var out = '';
+    for (var p in o) {
+      out += p + ': ' + o[p] + '\n';
+    }
+    $('.results').append(out);
+  }
+
+  printObject(data);
+
 
 });
-
-
-
 </script>
 </html>
