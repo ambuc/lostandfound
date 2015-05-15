@@ -43,7 +43,7 @@ $(document).ready(function() {
     $(xml).find("Category").each(function(){
       var cat = {
         'name' : $(this).attr('Category'),
-        'data' : {}
+        'data' : []
       };
       $(this).find("SubCategory").each(function(){
         var subcat = {
