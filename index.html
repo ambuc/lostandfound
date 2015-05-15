@@ -64,9 +64,9 @@ $(document).ready(function() {
   .fail(function()    { $("#sandbox").append( "<p>Error!</p>"           ); })
   .always(function()  { $("#sandbox").append( "<p>Finished.</p>"        ); });
 
-  console.log(data);
+  console.log(alldata);
 
-  for (var item in data){
+  for (var item in alldata){
     $(".results").append(item['name']);
   }
 
