@@ -33,7 +33,7 @@
 <script>
 $(document).ready(function() {
 
-  var data = [];
+  var alldata = [];
 
   function parseXML(xml){
     $(xml).find("Category").each(function(){
@@ -48,7 +48,7 @@ $(document).ready(function() {
         };
         cat['data'].push(subcat);
       });
-      data.push(cat);
+      alldata.push(cat);
     });
   };
 
