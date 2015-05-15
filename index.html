@@ -23,7 +23,7 @@
     </div>
     <div class='row'>
       <div class='col-md-12 results'>
-        HELL
+        SHITSTACK
       </div>
     </div>
   </div>
@@ -33,7 +33,10 @@
 <script>
 $(document).ready(function() {
 
-  var alldata = [];
+  var data = {
+    'name' : 'data',
+    'cats' : []
+  };
 
   function parseXML(xml){
     $(xml).find("Category").each(function(){
@@ -48,7 +51,7 @@ $(document).ready(function() {
         };
         cat['data'].push(subcat);
       });
-      alldata.push(cat);
+      data['cats'].push(cat);
     });
   };
 
@@ -64,11 +67,7 @@ $(document).ready(function() {
   .fail(function()    { $("#sandbox").append( "<p>Error!</p>"           ); })
   .always(function()  { $("#sandbox").append( "<p>Finished.</p>"        ); });
 
-  console.log(alldata);
-
-  for (var item in alldata){
-    $(".results").append(item['name']);
-  }
+  console.log(data);
 
 });
 </script>
