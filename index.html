@@ -10,7 +10,20 @@
     #sandbox p {
       display: inline; padding: 5px; margin-right: 5px; background: lightgrey;
     }
-    div.results{
+    .nar{
+      width: 350px; padding: 5px;
+    }
+    .panel-heading{
+      font-weight: bold;
+    }
+    .badge{
+      font-weight: normal;
+      background-color: #DDD;
+      color: black;
+      font-size: large;
+    }
+    .list-group-item{
+      overflow-x: auto;
     }
   </style>
 </head>
@@ -23,13 +36,13 @@
     </div>
     <div class='row'>
       <div class='col-md-12 results'>
-        SHITSTACK
       </div>
     </div>
   </div>
 </body>
 <script src="https://code.jquery.com/jquery-2.1.4.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/masonry/3.3.0/masonry.pkgd.min.js"></script>
 <script>
 $(document).ready(function() {
 
@@ -66,11 +79,22 @@ $(document).ready(function() {
   .done(function()    {
     $("#sandbox").append( "<p>Second Success.</p>"  );
 
-    console.log(data);
+    console.log(data.cats);
 
-    var cats = data['cats'];
+    for (var i = 0; i < data['cats'].length; i++){
+      $('.results').append("<div class='nar' id='"+i+"'> </div>");
+      $('.nar#'+i).append("<div class='panel panel-default'> <div class='panel-heading'>" + data['cats'][i]['name'] + "</div> <ul class='list-group' id='"+i+"'> </ul> </div>");
+      for (var j = 0; j < data['cats'][i]['data'].length; j++){
+        $('.nar#'+i+' .list-group').append('<li class="list-group-item">' + data['cats'][i]['data'][j]['name'] + ' <span class="badge">' + data['cats'][i]['data'][j]['count'] + '</span> </li>');
+      }
+    }
 
-    console.log(cats);
+    var container = document.querySelector('.results');
+    var msnry = new Masonry( container, {
+      // options
+      columnWidth: 350,
+      itemSelector: '.nar'
+    });
 
   })
   .fail(function()    { $("#sandbox").append( "<p>Error!</p>"           ); })
