@@ -10,9 +10,6 @@
     #sandbox p {
       display: inline; padding: 5px; margin-right: 5px; background: lightgrey;
     }
-    .narrow {
-      color: red;
-    }
   </style>
 </head>
 <body>
@@ -34,7 +31,6 @@
 $(document).ready(function() {
   function parseXML(xml){
     $(xml).find("Category").each(function(){
-      $('#results').append("<div class='narrow'>");
       $("#results").append("<h3>" + $(this).attr('Category') + "</h3>");
       $("#results").append("<ul class=\"list-group\">");
       $(this).find("SubCategory").each(function(){
@@ -45,7 +41,6 @@ $(document).ready(function() {
         );
         $("#results").append("</ul>");
       });
-      $("#results").append("</div>");
     });
   }
 
