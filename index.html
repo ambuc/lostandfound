@@ -63,15 +63,19 @@ $(document).ready(function() {
     dataType: "xml",
     success: parseXML
   })
-  .done(function()    { $("#sandbox").append( "<p>Second Success.</p>"  ); })
+  .done(function()    {
+    $("#sandbox").append( "<p>Second Success.</p>"  );
+
+    console.log(data);
+
+    var cats = data['cats'];
+
+    console.log(cats);
+
+  })
   .fail(function()    { $("#sandbox").append( "<p>Error!</p>"           ); })
   .always(function()  { $("#sandbox").append( "<p>Finished.</p>"        ); });
 
-  console.log(data);
-
-  var cats = data.cats;
-
-  console.log(cats);
 
 });
 </script>
