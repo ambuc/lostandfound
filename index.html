@@ -31,22 +31,41 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
 <script>
 $(document).ready(function() {
+
+  var data = {};
+
+  $(".results").append('success');
+
   function parseXML(xml){
     $(xml).find("Category").each(function(){
-      $(".results").append(
-        "<h3>" + $(this).attr('Category') + "</h3>"
-      );
-      $(".results").append("<ul class=\"list-group\">");
+      var cat = { name:$(this).attr('Category') };
       $(this).find("SubCategory").each(function(){
-        $(".results").append(
-          "<li class='list-group-item'> <span class='badge'> "
-          + $(this).attr('count') + "</span>"
-          + $(this).attr('SubCategory') + "</li>"
-        );
+        var subcat = {
+          name : $(this).attr('SubCategory'),
+          count : $(this).attr('count')
+        };
+        cat[data] = subcat;
       });
-      $(".results").append("</ul> </div>");
+      data[cat.name] = cat;
     });
-  }
+  };
+
+  console.log(data);
+
+    // $(xml).find("Category").each(function(){
+    //   $(".results").append(
+    //     "<h3>" + $(this).attr('Category') + "</h3>"
+    //   );
+    //   $(".results").append("<ul class=\"list-group\">");
+    //   $(this).find("SubCategory").each(function(){
+    //     $(".results").append(
+    //       "<li class='list-group-item'> <span class='badge'> "
+    //       + $(this).attr('count') + "</span>"
+    //       + $(this).attr('SubCategory') + "</li>"
+    //     );
+    //   });
+    //   $(".results").append("</ul> </div>");
+    // });
 
   $.ajax({
     type: "POST",
