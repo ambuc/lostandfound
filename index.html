@@ -50,7 +50,7 @@ $(document).ready(function() {
           'name' : $(this).attr('SubCategory'),
           'count' : $(this).attr('count')
         };
-        cat['data'] = subcat;
+        cat['data'].push(subcat);
       });
       data['categories'].push(cat);
     });
